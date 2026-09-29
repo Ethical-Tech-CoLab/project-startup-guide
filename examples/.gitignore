@@ -1,0 +1,34 @@
+# Secrets — never commit these
+.env
+.env.*
+*.key
+*.pem
+secrets.json
+.vscode/mcp.local.json
+
+# Dependencies
+node_modules/
+.venv/
+venv/
+__pycache__/
+
+# Build output
+dist/
+build/
+.parcel-cache/
+
+# Operating system junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/*
+!.vscode/mcp.json
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+
+# Logs
+*.log
+npm-debug.log*

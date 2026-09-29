@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Operating system junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+
+# Secrets — never commit these
+.env
+.env.*
+*.key
+*.pem
