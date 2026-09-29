@@ -44,6 +44,23 @@ Two kinds of server:
 The easiest way to add one in VS Code: **Command Palette → `MCP: Add Server`**, then pick
 from the gallery. Manage running servers with **`MCP: List Servers`**.
 
+Or just ask for the whole file — this is usually fastest:
+
+```text
+Create .vscode/mcp.json in this project with these MCP servers:
+- github (remote HTTP, https://api.githubcopilot.com/mcp/)
+- tavily (remote HTTP, https://mcp.tavily.com/mcp/, API key supplied as a prompted input,
+  never hardcoded)
+- memory, sequentialthinking and filesystem (stdio, via npx, official
+  @modelcontextprotocol packages; scope filesystem to this workspace folder only)
+- playwright (stdio, via npx, @playwright/mcp)
+
+Rules:
+- No API keys in the file. Use VS Code's "inputs" with a password prompt.
+- Explain what each server lets you do, in one sentence each.
+- Then tell me how to start them and how to check they are running.
+```
+
 A ready-to-copy file is at [`examples/mcp.json`](../examples/mcp.json) — copy it to
 `.vscode/mcp.json` and delete the servers you don't want.
 

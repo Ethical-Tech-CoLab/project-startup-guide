@@ -86,6 +86,8 @@ code, pre, kbd, .mono {
   font-family: Consolas, "Courier New", Courier, monospace;
 }
 
+:not(pre) > code { overflow-wrap: anywhere; }
+
 a { color: var(--cp-link); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
@@ -321,6 +323,42 @@ main { padding: 2rem 0 4rem; }
 .note strong { display: block; margin-bottom: 0.15rem; }
 .note > :last-child { margin-bottom: 0; }
 
+/* ---------- chat-first pattern ---------- */
+.ask {
+  border: 1px solid var(--cp-accent);
+  background: var(--cp-accent-soft);
+  border-radius: 0.625rem;
+  padding: 0.85rem 1rem;
+  margin: 0 0 0.85rem;
+}
+.ask > :last-child { margin-bottom: 0; }
+.ask-label {
+  display: flex; align-items: center; gap: 0.4rem;
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em;
+  text-transform: uppercase; color: var(--cp-accent);
+  margin-bottom: 0.5rem;
+}
+.ask .code { background: var(--cp-surface); }
+
+details.fallback {
+  border: 1px solid var(--cp-border);
+  border-radius: 0.625rem;
+  padding: 0.5rem 0.85rem;
+  margin: 0 0 0.85rem;
+  background: var(--cp-surface-soft);
+  font-size: 0.9rem;
+}
+details.fallback > summary {
+  cursor: pointer; font-size: 0.85rem; color: var(--cp-text-muted);
+  list-style: none; display: flex; align-items: center; gap: 0.4rem;
+}
+details.fallback > summary::-webkit-details-marker { display: none; }
+details.fallback > summary::before { content: "▸"; color: var(--cp-text-soft); }
+details.fallback[open] > summary::before { content: "▾"; }
+details.fallback[open] > summary { margin-bottom: 0.65rem; }
+details.fallback > summary:hover { color: var(--cp-text); }
+details.fallback > :last-child { margin-bottom: 0; }
+
 /* ---------- tables ---------- */
 .table-wrap { overflow-x: auto; margin-bottom: 0.85rem; }
 table { border-collapse: collapse; width: 100%; font-size: 0.87rem; }
@@ -539,6 +577,42 @@ td code { font-size: 0.82rem; background: var(--cp-surface-soft); padding: 0.05r
     own words, it is not yours yet — ask the assistant to explain it, or delete it.
   </div>
 
+  <div class="card" style="border-color:var(--cp-accent)">
+    <div class="eyebrow">How this guide expects you to work</div>
+    <h3>💬 Chat first. The terminal is the fallback, not the default.</h3>
+    <p>
+      You will spend roughly 95% of your time in <strong>VS Code Copilot Chat, in Agent mode</strong>.
+      Agent mode can create files, run commands, install software, commit, push, open pull requests,
+      and check the result — you describe the outcome, it does the work and shows you what it ran.
+    </p>
+    <p>
+      So throughout this guide, every step leads with a prompt you can paste. Where a terminal command
+      genuinely helps — because you want to recognise it, or the agent is unavailable — it is tucked
+      into a collapsed <em>“If you would rather type it yourself”</em> section underneath.
+    </p>
+    <div class="ask">
+      <div class="ask-label"><span aria-hidden="true">💬</span> The habit to build</div>
+      <div class="code wrap-text" data-code>
+        <div class="code-head"><span>paste into Copilot Chat (Agent mode)</span><button class="btn btn-sm" data-copy type="button">Copy</button></div>
+        <pre>&lt;describe what you want to be true when you are done&gt;
+
+Do it for me: work out the steps, run whatever commands are needed, and show me each
+command before you run it. Explain what each one does in one plain sentence. If anything
+fails, diagnose it and try again. When you are finished, verify the result and tell me
+how you verified it.</pre>
+      </div>
+      <p style="margin:0.6rem 0 0;font-size:0.88rem">
+        That single pattern replaces most of what a beginner would otherwise Google. Reading the
+        commands as they scroll past is how you learn them — you just do not have to remember them.
+      </p>
+    </div>
+    <div class="note warn" style="margin-bottom:0">
+      <strong>Two things still need your hands</strong>
+      Signing in to accounts, and clicking buttons in GitHub's web settings. An agent cannot
+      log in as you, and it should not. Everything else, hand over.
+    </div>
+  </div>
+
   <div class="card">
     <h3>Impatient? The 10-minute version</h3>
     <ol>
@@ -547,7 +621,7 @@ td code { font-size: 0.82rem; background: var(--cp-surface-soft); padding: 0.05r
       <li>Add <code>.vscode/mcp.json</code> with the GitHub and Tavily servers (<a href="#mcp" data-jump="mcp">phase 2</a>).</li>
       <li>Drop the four templates into the repository root.</li>
       <li>Run prompt #1 in Copilot Chat and let it interview you about your idea.</li>
-      <li>Commit, push, open a pull request, ask a human to review it.</li>
+      <li>Ask the agent to commit, push and open a pull request, then ask a human to review it.</li>
     </ol>
     <p style="margin-bottom:0">Then come back and do it properly.</p>
   </div>
@@ -563,17 +637,24 @@ td code { font-size: 0.82rem; background: var(--cp-surface-soft); padding: 0.05r
     </p>
   </div>
 
+  <div class="note">
+    <strong>Notice what you are <em>not</em> doing</strong>
+    Only the first two steps need you personally, because they involve signing in as yourself.
+    From step 3 onward your agent installs, configures and verifies things for you — you paste a
+    prompt and read what it does.
+  </div>
+
   <div class="table-wrap card">
     <table>
-      <thead><tr><th>#</th><th>Tool</th><th>What it actually is</th><th>Time</th><th>Cost</th></tr></thead>
+      <thead><tr><th>#</th><th>Tool</th><th>What it actually is</th><th>Who does it</th><th>Time</th></tr></thead>
       <tbody>
-        <tr><td>1</td><td>GitHub account</td><td>Where your project lives online</td><td>10 min</td><td><span class="tag tag-free">Free</span></td></tr>
-        <tr><td>2</td><td>GitHub Education</td><td>Unlocks Copilot Pro and other tools for students</td><td>10 min</td><td><span class="tag tag-free">Free</span></td></tr>
-        <tr><td>3</td><td>Git</td><td>The program that saves versions of your work</td><td>10 min</td><td><span class="tag tag-free">Free</span></td></tr>
-        <tr><td>4</td><td>VS Code</td><td>The editor you work in</td><td>10 min</td><td><span class="tag tag-free">Free</span></td></tr>
-        <tr><td>5</td><td>GitHub Copilot</td><td>AI assistant inside the editor</td><td>10 min</td><td><span class="tag tag-free">Free tier</span></td></tr>
-        <tr><td>6</td><td>GitHub Pages</td><td>Publishes your page at a public URL</td><td>15 min</td><td><span class="tag tag-free">Free</span></td></tr>
-        <tr><td>7</td><td>Claude Code / OpenAI Codex</td><td>A second, terminal-based AI agent</td><td>20 min</td><td><span class="tag tag-paid">Paid — optional</span></td></tr>
+        <tr><td>1</td><td>GitHub account</td><td>Where your project lives online</td><td>🧑 You — it is your identity</td><td>10 min</td></tr>
+        <tr><td>2</td><td>GitHub Education</td><td>Unlocks Copilot Pro and other tools for students</td><td>🧑 You — it is your identity</td><td>10 min</td></tr>
+        <tr><td>3</td><td>VS Code</td><td>The editor you work in</td><td>🧑 You — one download</td><td>10 min</td></tr>
+        <tr><td>4</td><td>GitHub Copilot</td><td>The agent that does the rest</td><td>🧑 You — one sign-in</td><td>10 min</td></tr>
+        <tr><td>5</td><td>Git</td><td>The program that saves versions of your work</td><td>💬 Your agent</td><td>5 min</td></tr>
+        <tr><td>6</td><td>GitHub Pages</td><td>Publishes your page at a public URL</td><td>💬 Agent + 🧑 one setting</td><td>15 min</td></tr>
+        <tr><td>7</td><td>Claude Code / OpenAI Codex</td><td>A second AI agent</td><td>💬 Your agent — optional</td><td>20 min</td></tr>
       </tbody>
     </table>
   </div>
@@ -639,73 +720,54 @@ td code { font-size: 0.82rem; background: var(--cp-surface-soft); padding: 0.05r
 
   <div class="step" data-step>
     <div class="step-head">
-      <input type="checkbox" data-track="setup" data-id="setup-git" aria-label="Mark step complete: install Git" />
-      <div class="step-title">
-        <h3>3 · Install Git</h3>
-        <p>Git is the program on <em>your computer</em> that tracks versions. GitHub is the website. You need both.</p>
-        <div class="step-meta"><span class="tag tag-free">Free</span><span class="tag">10 min</span></div>
-      </div>
-    </div>
-    <div class="step-body">
-      <p>
-        <strong>Windows:</strong> <a href="https://git-scm.com/download/win" target="_blank" rel="noopener">git-scm.com/download/win</a> — accept the defaults.<br />
-        <strong>macOS:</strong> run <code>xcode-select --install</code>, or use <a href="https://git-scm.com/download/mac" target="_blank" rel="noopener">git-scm.com/download/mac</a>.
-      </p>
-      <p>Then tell Git who you are — once, in Terminal or PowerShell:</p>
-      <div class="code" data-code>
-        <div class="code-head"><span>one-time setup</span><button class="btn btn-sm" data-copy type="button">Copy</button></div>
-        <pre>git config --global user.name "Your Full Name"
-git config --global user.email "you@example.com"
-git config --global init.defaultBranch main
-git --version</pre>
-      </div>
-      <h4>The five commands that cover 95% of your work</h4>
-      <div class="code" data-code>
-        <div class="code-head"><span>everyday Git</span><button class="btn btn-sm" data-copy type="button">Copy</button></div>
-        <pre>git status                      # what have I changed?
-git add .                       # stage everything I changed
-git commit -m "docs: add spec"  # save a checkpoint with a message
-git push                        # send it to GitHub
-git pull                        # get the latest from GitHub</pre>
-      </div>
-      <p style="margin-bottom:0">Scared of a command? Ask your assistant: <em>“Explain what <code>git rebase</code>
-        does as if I have never used Git, and tell me whether I actually need it.”</em></p>
-    </div>
-  </div>
-
-  <div class="step" data-step>
-    <div class="step-head">
       <input type="checkbox" data-track="setup" data-id="setup-vscode" aria-label="Mark step complete: install VS Code" />
       <div class="step-title">
-        <h3>4 · Install VS Code and four extensions</h3>
-        <p>A text editor with superpowers: a file tree, a built-in terminal, extensions, and AI chat.</p>
-        <div class="step-meta"><span class="tag tag-free">Free</span><span class="tag">10 min</span></div>
+        <h3>3 · Install VS Code</h3>
+        <p>The editor — and the home of the agent that will do most of the remaining work for you.</p>
+        <div class="step-meta"><span class="tag">🧑 You</span><span class="tag tag-free">Free</span><span class="tag">10 min</span></div>
       </div>
     </div>
     <div class="step-body">
       <p>Download from <a href="https://code.visualstudio.com/" target="_blank" rel="noopener">code.visualstudio.com</a>, then learn exactly four things:</p>
       <ul>
+        <li><strong>Copilot Chat</strong> <span class="kbd">Ctrl/Cmd+Alt+I</span> — where you will spend most of your time</li>
         <li><strong>Explorer</strong> <span class="kbd">Ctrl/Cmd+Shift+E</span> — your files</li>
         <li><strong>Command Palette</strong> <span class="kbd">Ctrl/Cmd+Shift+P</span> — do anything by typing its name</li>
-        <li><strong>Terminal</strong> <span class="kbd">Ctrl+`</span> — where you type Git commands</li>
-        <li><strong>Source Control</strong> <span class="kbd">Ctrl/Cmd+Shift+G</span> — commit and push with buttons</li>
+        <li><strong>Source Control</strong> <span class="kbd">Ctrl/Cmd+Shift+G</span> — see what changed, commit with a button</li>
       </ul>
-      <h4>Extensions worth installing</h4>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Extension</th><th>Why</th></tr></thead>
-          <tbody>
-            <tr><td>GitHub Copilot + Copilot Chat</td><td>AI assistance and agent mode</td></tr>
-            <tr><td>GitHub Pull Requests</td><td>Review PRs without leaving the editor</td></tr>
-            <tr><td>markdownlint</td><td>Catches broken Markdown in your documents</td></tr>
-            <tr><td>Markdown All in One</td><td>Preview, table of contents, table formatting</td></tr>
-            <tr><td>Live Preview</td><td>Preview HTML pages locally</td></tr>
-            <tr><td>Code Spell Checker</td><td>Typos in a specification are embarrassing</td></tr>
-          </tbody>
-        </table>
+      <p>There is a fifth panel, the <strong>Terminal</strong> (<span class="kbd">Ctrl+`</span>). You mostly will not
+        type in it — but keep it visible, because it is where you watch your agent work.</p>
+      <div class="ask">
+        <div class="ask-label"><span aria-hidden="true">💬</span> Let the agent finish the setup</div>
+        <p style="font-size:0.9rem;margin-bottom:0.5rem">Once Copilot is signed in (step 4), paste this
+          instead of hunting through the extensions marketplace:</p>
+        <div class="code wrap-text" data-code>
+          <div class="code-head"><span>Copilot Chat · Agent mode</span><button class="btn btn-sm" data-copy type="button">Copy</button></div>
+          <pre>Install these VS Code extensions for me and tell me what each one does in one sentence:
+GitHub Pull Requests, markdownlint, Markdown All in One, Live Preview, Code Spell Checker.
+
+Then confirm which ones installed successfully.</pre>
+        </div>
       </div>
-      <p style="margin-bottom:0">Open a project with File → Open Folder, or clone straight from GitHub:
-        Command Palette → <code>Git: Clone</code>.</p>
+      <details class="fallback">
+        <summary>If you would rather install them yourself</summary>
+        <p>Extensions panel (<span class="kbd">Ctrl/Cmd+Shift+X</span>), search each by name:</p>
+        <div class="table-wrap" style="margin-bottom:0">
+          <table>
+            <thead><tr><th>Extension</th><th>Why</th></tr></thead>
+            <tbody>
+              <tr><td>GitHub Copilot + Copilot Chat</td><td>AI assistance and agent mode</td></tr>
+              <tr><td>GitHub Pull Requests</td><td>Review PRs without leaving the editor</td></tr>
+              <tr><td>markdownlint</td><td>Catches broken Markdown in your documents</td></tr>
+              <tr><td>Markdown All in One</td><td>Preview, table of contents, table formatting</td></tr>
+              <tr><td>Live Preview</td><td>Preview HTML pages locally</td></tr>
+              <tr><td>Code Spell Checker</td><td>Typos in a specification are embarrassing</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+      <p style="margin-bottom:0">Open a project with File → Open Folder. Cloning a repository is a job for
+        your agent — see step 5.</p>
     </div>
   </div>
 
@@ -713,36 +775,140 @@ git pull                        # get the latest from GitHub</pre>
     <div class="step-head">
       <input type="checkbox" data-track="setup" data-id="setup-copilot" aria-label="Mark step complete: set up Copilot" />
       <div class="step-title">
-        <h3>5 · Set up GitHub Copilot in VS Code</h3>
-        <p>AI that reads your open files and helps you write documents and code.</p>
-        <div class="step-meta"><span class="tag tag-free">Free tier / free for students</span><span class="tag">10 min</span></div>
+        <h3>4 · Sign in to GitHub Copilot and find Agent mode</h3>
+        <p>This is the step that unlocks everything else. From here on, you ask and it does.</p>
+        <div class="step-meta"><span class="tag">🧑 You</span><span class="tag tag-free">Free tier / free for students</span><span class="tag">10 min</span></div>
       </div>
     </div>
     <div class="step-body">
       <ol>
         <li>Sign in to GitHub in VS Code (account icon, bottom left).</li>
-        <li>Install <strong>GitHub Copilot</strong> and <strong>GitHub Copilot Chat</strong>.</li>
+        <li>Install <strong>GitHub Copilot</strong> and <strong>GitHub Copilot Chat</strong> from the Extensions panel.</li>
         <li>Open chat with <span class="kbd">Ctrl/Cmd+Alt+I</span>.</li>
+        <li><strong>Switch the mode dropdown at the bottom of the chat box to “Agent”.</strong> Do this now; almost every prompt in this guide assumes it.</li>
       </ol>
-      <h4>Three modes, and when to use each</h4>
+      <h4>Three modes, and why Agent is your default</h4>
       <div class="table-wrap">
         <table>
           <thead><tr><th>Mode</th><th>What it does</th><th>Use it for</th></tr></thead>
           <tbody>
-            <tr><td><strong>Ask</strong></td><td>Answers questions about your files</td><td>“What does this file do?”</td></tr>
-            <tr><td><strong>Edit</strong></td><td>Proposes changes to files you pick</td><td>Revising a section of your spec</td></tr>
-            <tr><td><strong>Agent</strong></td><td>Plans and executes multi-step work, runs tools and MCP servers</td><td>“Draft SPECIFICATION.md from the concept doc”</td></tr>
+            <tr><td><strong>Ask</strong></td><td>Answers questions. Changes nothing</td><td>“What does this file do?”</td></tr>
+            <tr><td><strong>Edit</strong></td><td>Proposes changes to files you pick</td><td>Revising one section of your spec</td></tr>
+            <tr><td><strong>Agent</strong> ⭐</td><td>Plans, edits files, <em>runs terminal commands</em>, uses MCP servers, checks its own work</td><td>Everything else in this guide</td></tr>
           </tbody>
         </table>
+      </div>
+      <div class="ask">
+        <div class="ask-label"><span aria-hidden="true">💬</span> Your first agent prompt</div>
+        <div class="code wrap-text" data-code>
+          <div class="code-head"><span>Copilot Chat · Agent mode</span><button class="btn btn-sm" data-copy type="button">Copy</button></div>
+          <pre>I am new to all of this. Confirm for me, in plain language:
+1. Are you in Agent mode right now?
+2. Can you create and edit files in this folder?
+3. Can you run terminal commands on my behalf, and will you show me each one first?
+4. What is this folder's path, and is it already a Git repository?
+
+Keep it short. Then wait for my next instruction.</pre>
+        </div>
       </div>
       <div class="note">
         <strong>Context is everything</strong>
         Type <code>#</code> in chat to attach things: <code>#file:CONCEPT-IDEA.md</code> for a specific file,
         <code>#selection</code> for highlighted text, <code>#codebase</code> to let it search the whole project.
+        A prompt with the right file attached is worth three without.
       </div>
-      <p>Set project-wide rules once in <code>.github/copilot-instructions.md</code> and every chat in the
-        repository follows them. A ready-made one is in the
-        <a href="#toolkit" data-jump="toolkit">toolkit</a>.</p>
+      <div class="note warn" style="margin-bottom:0">
+        <strong>Read the command, then approve it</strong>
+        When the agent asks to run something, it shows you the command first. Read it. If you do not
+        understand it, ask “what does that command do and is it safe?” before approving. You are the
+        adult in the room — but you do not have to be the typist.
+      </div>
+    </div>
+  </div>
+
+  <div class="step" data-step>
+    <div class="step-head">
+      <input type="checkbox" data-track="setup" data-id="setup-git" aria-label="Mark step complete: Git set up by the agent" />
+      <div class="step-title">
+        <h3>5 · Have your agent set up Git — do not do this by hand</h3>
+        <p>Git is the program that saves versions of your work. You need it installed and configured. You do not need to learn it today.</p>
+        <div class="step-meta"><span class="tag tag-accent">💬 Your agent does this</span><span class="tag tag-free">Free</span><span class="tag">5 min</span></div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>
+        Most guides spend a page here teaching you <code>git config</code>, <code>git add</code>,
+        <code>git commit</code>. You do not need that yet. Git is plumbing: it matters that it works,
+        not that you can operate it from memory. Let the agent install and configure it, and read
+        along as it goes.
+      </p>
+      <div class="ask">
+        <div class="ask-label"><span aria-hidden="true">💬</span> Paste this into Copilot Chat</div>
+        <div class="code wrap-text" data-code>
+          <div class="code-head"><span>Copilot Chat · Agent mode</span><button class="btn btn-sm" data-copy type="button">Copy</button></div>
+          <pre>Set up Git on this machine for me. I am new to this, so narrate what you are doing.
+
+1. Check whether Git is installed. If it is not, install it using the right method for my
+   operating system, and tell me what you are installing before you do it.
+2. Configure my identity:
+   name "&lt;Your Full Name&gt;", email "&lt;the email on my GitHub account&gt;".
+3. Set the default branch name to "main".
+4. Confirm I am signed in to GitHub in VS Code so pushing will work without me pasting a
+   password. If I am not, tell me exactly which button to click.
+5. Verify everything by printing the resulting configuration, and tell me in plain language
+   what each setting means.
+
+Do not commit anything yet.</pre>
+        </div>
+      </div>
+      <div class="ask">
+        <div class="ask-label"><span aria-hidden="true">💬</span> And to create your project repository</div>
+        <div class="code wrap-text" data-code>
+          <div class="code-head"><span>Copilot Chat · Agent mode</span><button class="btn btn-sm" data-copy type="button">Copy</button></div>
+          <pre>Create a new project for me called "&lt;project-name&gt;":
+
+1. Make a folder for it and open it as my workspace.
+2. Turn it into a Git repository on a branch called main.
+3. Add a .gitignore suitable for this kind of project, so secrets and junk are never committed.
+4. Add a README.md with the project name and one sentence describing it.
+5. Create a matching repository on my GitHub account and push the first commit.
+6. Show me the repository URL when you are done.
+
+Tell me what each step did once it is finished.</pre>
+        </div>
+      </div>
+      <details class="fallback">
+        <summary>If you would rather do it yourself — or the agent is unavailable</summary>
+        <p><strong>Install:</strong> Windows — <a href="https://git-scm.com/download/win" target="_blank" rel="noopener">git-scm.com/download/win</a>,
+          accept the defaults. macOS — run <code>xcode-select --install</code>, or use
+          <a href="https://git-scm.com/download/mac" target="_blank" rel="noopener">git-scm.com/download/mac</a>.</p>
+        <div class="code" data-code>
+          <div class="code-head"><span>one-time setup</span><button class="btn btn-sm" data-copy type="button">Copy</button></div>
+          <pre>git config --global user.name "Your Full Name"
+git config --global user.email "you@example.com"
+git config --global init.defaultBranch main
+git --version</pre>
+        </div>
+        <div class="code" data-code>
+          <div class="code-head"><span>the everyday five</span><button class="btn btn-sm" data-copy type="button">Copy</button></div>
+          <pre>git status                      # what have I changed?
+git add .                       # stage everything I changed
+git commit -m "docs: add spec"  # save a checkpoint with a message
+git push                        # send it to GitHub
+git pull                        # get the latest from GitHub</pre>
+        </div>
+        <p style="margin-bottom:0">VS Code's <strong>Source Control</strong> panel does all five with buttons,
+          if you would rather click than type.</p>
+      </details>
+      <div class="note">
+        <strong>You will still learn Git — just later, and from context</strong>
+        Every time the agent runs a command, it appears in your terminal with an explanation.
+        After a week you will recognise them. That is a much better way to learn than memorising
+        commands before you have anything to commit.
+      </div>
+      <p style="margin-bottom:0">Set project-wide rules once in <code>.github/copilot-instructions.md</code> and
+        every chat in the repository follows them — including “explain what you ran”. A ready-made one is
+        in the <a href="#toolkit" data-jump="toolkit">toolkit</a>.</p>
     </div>
   </div>
 
@@ -752,32 +918,53 @@ git pull                        # get the latest from GitHub</pre>
       <div class="step-title">
         <h3>6 · Publish something with GitHub Pages</h3>
         <p>Free static hosting attached to any repository. Do this on day one — an empty live page removes a whole category of late-project panic.</p>
-        <div class="step-meta"><span class="tag tag-free">Free</span><span class="tag">15 min</span></div>
+        <div class="step-meta"><span class="tag tag-accent">💬 Agent + 🧑 one setting</span><span class="tag tag-free">Free</span><span class="tag">15 min</span></div>
       </div>
     </div>
     <div class="step-body">
-      <ol>
-        <li>Put your site files in a <code>docs/</code> folder (an <code>index.html</code> at minimum) and push to GitHub.</li>
-        <li>Repository → <strong>Settings → Pages</strong>.</li>
-        <li><strong>Source:</strong> Deploy from a branch. <strong>Branch:</strong> <code>main</code>. <strong>Folder:</strong> <code>/docs</code>. Save.</li>
-        <li>Wait about a minute. Your site is live at <code>https://&lt;username&gt;.github.io/&lt;repository&gt;/</code>.</li>
-      </ol>
+      <div class="ask">
+        <div class="ask-label"><span aria-hidden="true">💬</span> Ask the agent to build and publish it</div>
+        <div class="code wrap-text" data-code>
+          <div class="code-head"><span>Copilot Chat · Agent mode</span><button class="btn btn-sm" data-copy type="button">Copy</button></div>
+          <pre>Publish a placeholder page for this project on GitHub Pages.
+
+1. Create docs/index.html with the project name as a heading and one sentence saying it is
+   coming soon. Keep it valid, accessible HTML that works on a phone.
+2. Create an empty docs/.nojekyll file, and explain to me why it is needed.
+3. Commit and push everything to main.
+4. Tell me the exact Settings page I need to open and the exact options to choose to turn
+   Pages on, since you cannot click that for me.
+5. Once I confirm I have done it, wait a minute, then fetch the live URL and verify it
+   returns HTTP 200 and shows my heading. Report the URL back to me.</pre>
+        </div>
+      </div>
       <div class="note warn">
-        <strong>Gotchas that waste beginners' afternoons</strong>
+        <strong>🧑 The one part you must click yourself</strong>
+        Repository → <strong>Settings → Pages</strong> → <strong>Source:</strong> Deploy from a branch →
+        <strong>Branch:</strong> <code>main</code>, <strong>Folder:</strong> <code>/docs</code> → Save.
+        Wait about a minute; your site is live at <code>https://&lt;username&gt;.github.io/&lt;repository&gt;/</code>.
+        Put that URL in your README.
+      </div>
+      <div class="note">
+        <strong>Gotchas — worth knowing so you can spot them</strong>
         <ul style="margin-bottom:0">
           <li>The file must be <code>index.html</code>, lowercase.</li>
-          <li>Add an empty <code>.nojekyll</code> file next to it, or folders starting with <code>_</code> are ignored.</li>
+          <li>Without <code>.nojekyll</code>, folders starting with <code>_</code> are silently ignored.</li>
           <li>Paths are <strong>case-sensitive</strong> on Pages even though they work on Windows.</li>
           <li>Use relative paths (<code>./style.css</code>), never <code>C:\Users\…</code>.</li>
           <li>Changes are cached — hard-refresh with <span class="kbd">Ctrl/Cmd+Shift+R</span>.</li>
           <li>Everything published is <strong>public</strong>. Never put keys or personal data in it.</li>
         </ul>
       </div>
-      <p>Need a build step, or want to publish a folder other than <code>docs/</code>? Use a GitHub Actions
-        workflow instead and set Settings → Pages → Source to <strong>GitHub Actions</strong>:</p>
-      <div class="code" data-code>
-        <div class="code-head"><span>.github/workflows/deploy-pages.yml</span><button class="btn btn-sm" data-copy type="button">Copy</button></div>
-        <pre>name: Deploy dashboard to GitHub Pages
+      <details class="fallback">
+        <summary>Optional: publish with a GitHub Actions workflow instead</summary>
+        <p>Useful if your site needs a build step, or lives somewhere other than <code>docs/</code>.
+          Ask your agent: <em>“Add a GitHub Actions workflow that publishes the docs folder to Pages
+          on every push to main, then tell me how to switch Settings → Pages → Source to GitHub Actions.”</em>
+          This is what it should produce:</p>
+        <div class="code" data-code>
+          <div class="code-head"><span>.github/workflows/deploy-pages.yml</span><button class="btn btn-sm" data-copy type="button">Copy</button></div>
+          <pre>name: Deploy dashboard to GitHub Pages
 
 on:
   push:
@@ -809,7 +996,11 @@ jobs:
           path: docs
       - id: deployment
         uses: actions/deploy-pages@v4</pre>
-      </div>
+        </div>
+        <p style="margin-bottom:0">If a workflow run fails, paste the failure straight into chat:
+          <em>“The Pages deployment failed. Read the workflow logs, explain the cause in plain language,
+          and fix it.”</em></p>
+      </details>
     </div>
   </div>
 
@@ -856,12 +1047,26 @@ jobs:
 
   <div class="card">
     <h3>Before you move on</h3>
+    <p>Do not check these by hand — paste this and let the agent verify your setup:</p>
+    <div class="ask">
+      <div class="ask-label"><span aria-hidden="true">💬</span> Verify phase 1</div>
+      <div class="code wrap-text" data-code>
+        <div class="code-head"><span>Copilot Chat · Agent mode</span><button class="btn btn-sm" data-copy type="button">Copy</button></div>
+        <pre>Check my setup and give me a pass/fail table with one row per item:
+1. Git is installed and my name and email are configured
+2. This folder is a Git repository on branch main, with a remote on GitHub
+3. I have at least one commit pushed
+4. The GitHub Pages URL for this repository returns HTTP 200
+5. A .gitignore exists and would prevent committing secrets
+
+For anything that fails, fix it if you can, or tell me exactly what I need to click.</pre>
+      </div>
+    </div>
     <ul class="checklist">
-      <li><code>git --version</code> prints a version</li>
-      <li>You can open a folder in VS Code and use the built-in terminal</li>
-      <li>Copilot Chat responds in VS Code</li>
-      <li>You have pushed at least one commit to a GitHub repository</li>
-      <li>A page you wrote is visible at <code>https://&lt;username&gt;.github.io/&lt;repository&gt;/</code></li>
+      <li>Copilot Chat responds in VS Code, in <strong>Agent</strong> mode</li>
+      <li>Your agent set up Git and you watched it happen</li>
+      <li>At least one commit is pushed to a GitHub repository</li>
+      <li>A page you published is visible at <code>https://&lt;username&gt;.github.io/&lt;repository&gt;/</code></li>
     </ul>
     <button class="btn btn-primary" data-jump="mcp" type="button">Next: MCP servers →</button>
   </div>
@@ -921,6 +1126,24 @@ jobs:
       </div>
       <p>Easiest route in VS Code: <strong>Command Palette → <code>MCP: Add Server</code></strong> and pick from the
         gallery. Manage what is running with <code>MCP: List Servers</code>.</p>
+      <div class="ask">
+        <div class="ask-label"><span aria-hidden="true">💬</span> Or just ask for the whole file</div>
+        <div class="code wrap-text" data-code>
+          <div class="code-head"><span>Copilot Chat · Agent mode</span><button class="btn btn-sm" data-copy type="button">Copy</button></div>
+          <pre>Create .vscode/mcp.json in this project with these MCP servers:
+- github (remote HTTP, https://api.githubcopilot.com/mcp/)
+- tavily (remote HTTP, https://mcp.tavily.com/mcp/, API key supplied as a prompted input,
+  never hardcoded)
+- memory, sequentialthinking and filesystem (stdio, via npx, official
+  @modelcontextprotocol packages; scope filesystem to this workspace folder only)
+- playwright (stdio, via npx, @playwright/mcp)
+
+Rules:
+- No API keys in the file. Use VS Code's "inputs" with a password prompt.
+- Explain what each server lets you do, in one sentence each.
+- Then tell me how to start them and how to check they are running.</pre>
+        </div>
+      </div>
       <p>Or copy this starter file wholesale and delete what you do not want:</p>
       <div class="code" data-code>
         <div class="code-head"><span>.vscode/mcp.json — the starter set</span><button class="btn btn-sm" data-copy type="button">Copy</button></div>
@@ -1550,23 +1773,41 @@ Do not praise the documents. Do not rewrite them. Just find the problems.</pre>
       </div>
     </div>
     <div class="step-body">
-      <div class="code" data-code>
-        <div class="code-head"><span>one branch per document</span><button class="btn btn-sm" data-copy type="button">Copy</button></div>
-        <pre>git checkout -b docs/concept-idea
+      <div class="ask">
+        <div class="ask-label"><span aria-hidden="true">💬</span> Ask the agent to open the pull request</div>
+        <div class="code wrap-text" data-code>
+          <div class="code-head"><span>Copilot Chat · Agent mode</span><button class="btn btn-sm" data-copy type="button">Copy</button></div>
+          <pre>Put CONCEPT-IDEA.md up for review.
+
+1. Create a branch called docs/concept-idea.
+2. Commit the document with a clear conventional-commit message.
+3. Push the branch and open a pull request against main.
+4. Write the PR description for me with three sections: what I want feedback on most,
+   what I am least sure about, and anything I could not verify. Base it on the document —
+   and ask me if you are unsure what belongs in each section.
+5. Give me the pull request URL, and tell me how to request &lt;reviewer's GitHub username&gt;
+   as a reviewer.</pre>
+        </div>
+      </div>
+      <p>Keeping reviews in pull requests gives you a permanent, dated record of who approved what —
+        and it is exactly how professional teams work. Repeat the same prompt for each document,
+        changing the branch and file name.</p>
+      <details class="fallback">
+        <summary>The commands behind that, if you want to see them</summary>
+        <div class="code" data-code>
+          <div class="code-head"><span>one branch per document</span><button class="btn btn-sm" data-copy type="button">Copy</button></div>
+          <pre>git checkout -b docs/concept-idea
 git add CONCEPT-IDEA.md
 git commit -m "docs: add concept idea for &lt;project&gt;"
 git push -u origin docs/concept-idea</pre>
-      </div>
-      <p>Then on GitHub: <strong>Pull requests → New pull request → Reviewers</strong>. In the description, write:</p>
-      <ul>
-        <li>What you want feedback on most</li>
-        <li>What you are least sure about</li>
-        <li>Anything you could not verify</li>
-      </ul>
+        </div>
+        <p style="margin-bottom:0">Then on GitHub: <strong>Pull requests → New pull request → Reviewers</strong>.</p>
+      </details>
       <div class="note">
         <strong>Make the gate structural</strong>
         Settings → Branches → add a ruleset on <code>main</code> requiring a pull request and one approving
-        review. Then the gate does not depend on anybody's discipline.
+        review. Then the gate does not depend on anybody's discipline. Ask your agent to walk you
+        through the exact screens if you cannot find them.
       </div>
     </div>
   </div>
@@ -1685,13 +1926,24 @@ git push -u origin docs/concept-idea</pre>
       </div>
     </div>
     <div class="step-body">
-      <ol>
-        <li>Create the repository and push the four approved documents.</li>
-        <li>Add <code>docs/index.html</code> with a heading and one sentence.</li>
-        <li>Add an empty <code>docs/.nojekyll</code> file.</li>
-        <li>Turn on Pages (Settings → Pages → <code>main</code> / <code>/docs</code>).</li>
-        <li>Put the live URL in your <code>README.md</code> and in <code>PLAN.md</code>.</li>
-      </ol>
+      <div class="ask">
+        <div class="ask-label"><span aria-hidden="true">💬</span> One prompt, whole milestone</div>
+        <div class="code wrap-text" data-code>
+          <div class="code-head"><span>Copilot Chat · Agent mode</span><button class="btn btn-sm" data-copy type="button">Copy</button></div>
+          <pre>Set up milestone 0 for this project — a walking skeleton.
+
+1. Make sure the four approved documents are committed and pushed.
+2. Create docs/index.html: the project name, one sentence from CONCEPT-IDEA.md, and nothing
+   else. Valid, accessible, works on a phone.
+3. Create an empty docs/.nojekyll.
+4. Commit and push to main.
+5. Tell me exactly what to click to enable GitHub Pages, then verify the live URL returns
+   HTTP 200 once I confirm.
+6. Add the live URL to README.md and to the "Environments" section of PLAN.md, and commit that.
+
+Report what you did, and paste the live URL at the end.</pre>
+        </div>
+      </div>
       <div class="note">
         <strong>Why this matters more than it looks</strong>
         Deployment problems found on day one take ten minutes. Found the night before a deadline,
@@ -1729,6 +1981,22 @@ Rules:
 number, and re-order "Now" if priorities changed. If what I actually built differs from
 SPECIFICATION.md, list the differences and propose the exact edits to the spec — do not
 edit the spec silently.</pre>
+      </div>
+      <div class="ask">
+        <div class="ask-label"><span aria-hidden="true">💬</span> And to ship it — no terminal needed</div>
+        <div class="code wrap-text" data-code>
+          <div class="code-head"><span>Copilot Chat · Agent mode</span><button class="btn btn-sm" data-copy type="button">Copy</button></div>
+          <pre>Ship T-00x for me:
+
+1. Create a branch named after the task.
+2. Commit the changes with a conventional-commit message referencing T-00x.
+3. Push, and open a pull request whose description lists the acceptance criteria and how
+   each one was verified.
+4. Show me the diff summary and the PR URL.
+5. Once it is merged, confirm the deployment succeeded and the live site reflects the change.
+
+If anything fails, diagnose it, tell me what went wrong in plain language, and fix it.</pre>
+        </div>
       </div>
       <div class="note warn">
         <strong>A stale specification is worse than no specification</strong>
@@ -2072,7 +2340,9 @@ If a criterion fails, say which one and why — do not fix it yet.</pre>
   </div>
 
   <div class="card" data-gloss-group>
-    <h3>Commands you will be told to type</h3>
+    <h3>Commands your agent will run for you</h3>
+    <p style="font-size:0.88rem;color:var(--cp-text-muted)">You should not need to type these. They are
+      here so that when they scroll past in the terminal, you know what just happened.</p>
     <div class="table-wrap"><table><tbody>
       <tr><td><code>cd my-folder</code></td><td>Move into a folder</td></tr>
       <tr><td><code>ls</code> / <code>dir</code></td><td>List files (macOS-Linux / Windows)</td></tr>
@@ -2080,10 +2350,16 @@ If a criterion fails, say which one and why — do not fix it yet.</pre>
       <tr><td><code>git add .</code></td><td>Stage all your changes</td></tr>
       <tr><td><code>git commit -m "message"</code></td><td>Save a checkpoint</td></tr>
       <tr><td><code>git push</code> / <code>git pull</code></td><td>Upload your commits / download others'</td></tr>
+      <tr><td><code>git checkout -b name</code></td><td>Start a new branch</td></tr>
       <tr><td><code>npm install</code></td><td>Install a project's JavaScript dependencies</td></tr>
       <tr><td><code>npx &lt;tool&gt;</code></td><td>Run a JavaScript tool without installing it permanently</td></tr>
       <tr><td><code>code .</code></td><td>Open the current folder in VS Code</td></tr>
     </tbody></table></div>
+    <div class="note" style="margin-bottom:0">
+      <strong>Saw something you did not recognise?</strong>
+      Ask: “You just ran <em>&lt;command&gt;</em>. Explain what it did, whether it changed anything
+      permanently, and how I would undo it.”
+    </div>
   </div>
 
   <div class="note">
@@ -2746,6 +3022,12 @@ Record the review in the document's sign-off section and, ideally, as comments o
 Copy each prompt into GitHub Copilot Chat (VS Code), Claude Code, or ChatGPT/Codex.
 Run them **in order**. Do not skip the human review between stages.
 
+> **Use Agent mode.** Everything here assumes VS Code Copilot Chat set to **Agent** — it can
+> create files, run commands, use MCP servers and verify its own work. The
+> [operations prompts](#operations-prompts--the-terminal-work-you-never-have-to-type)
+> further down cover Git, commits, pull requests and deployment, so you never need to type
+> a terminal command yourself.
+
 Two habits that make these prompts work far better:
 
 1. **Attach the previous document** as context (in VS Code Chat: `#file:CONCEPT-IDEA.md`).
@@ -2882,6 +3164,118 @@ edit the spec silently.
 
 ---
 
+## Operations prompts — the terminal work you never have to type
+
+These cover the mechanics: Git, commits, pull requests, deployment, and debugging.
+Run them in **Agent mode**. You read what happens; you don't type the commands.
+
+### O1 — Set up Git
+
+```text
+Set up Git on this machine for me. I am new to this, so narrate what you are doing.
+
+1. Check whether Git is installed. If it is not, install it using the right method for my
+   operating system, and tell me what you are installing before you do it.
+2. Configure my identity:
+   name "<Your Full Name>", email "<the email on my GitHub account>".
+3. Set the default branch name to "main".
+4. Confirm I am signed in to GitHub in VS Code so pushing will work without me pasting a
+   password. If I am not, tell me exactly which button to click.
+5. Verify everything by printing the resulting configuration, and tell me in plain language
+   what each setting means.
+
+Do not commit anything yet.
+```
+
+### O2 — Create the project and its GitHub repository
+
+```text
+Create a new project for me called "<project-name>":
+
+1. Make a folder for it and open it as my workspace.
+2. Turn it into a Git repository on a branch called main.
+3. Add a .gitignore suitable for this kind of project, so secrets and junk are never committed.
+4. Add a README.md with the project name and one sentence describing it.
+5. Create a matching repository on my GitHub account and push the first commit.
+6. Show me the repository URL when you are done.
+
+Tell me what each step did once it is finished.
+```
+
+### O3 — Publish a placeholder page
+
+```text
+Publish a placeholder page for this project on GitHub Pages.
+
+1. Create docs/index.html with the project name as a heading and one sentence saying it is
+   coming soon. Keep it valid, accessible HTML that works on a phone.
+2. Create an empty docs/.nojekyll file, and explain to me why it is needed.
+3. Commit and push everything to main.
+4. Tell me the exact Settings page I need to open and the exact options to choose to turn
+   Pages on, since you cannot click that for me.
+5. Once I confirm I have done it, wait a minute, then fetch the live URL and verify it
+   returns HTTP 200 and shows my heading. Report the URL back to me.
+```
+
+### O4 — Put a document up for review
+
+```text
+Put <DOCUMENT>.md up for review.
+
+1. Create a branch called docs/<slug>.
+2. Commit the document with a clear conventional-commit message.
+3. Push the branch and open a pull request against main.
+4. Write the PR description for me with three sections: what I want feedback on most,
+   what I am least sure about, and anything I could not verify. Base it on the document —
+   and ask me if you are unsure what belongs in each section.
+5. Give me the pull request URL, and tell me how to request <reviewer's username>
+   as a reviewer.
+```
+
+### O5 — Ship a finished backlog item
+
+```text
+Ship T-00x for me:
+
+1. Create a branch named after the task.
+2. Commit the changes with a conventional-commit message referencing T-00x.
+3. Push, and open a pull request whose description lists the acceptance criteria and how
+   each one was verified.
+4. Show me the diff summary and the PR URL.
+5. Once it is merged, confirm the deployment succeeded and the live site reflects the change.
+
+If anything fails, diagnose it, tell me what went wrong in plain language, and fix it.
+```
+
+### O6 — When something breaks
+
+```text
+<Paste the error, or describe what you saw.>
+
+Diagnose this for me:
+1. What is actually wrong, in plain language — no jargon I haven't met yet?
+2. What is the smallest safe fix?
+3. Apply it, then verify it worked and show me the evidence.
+4. Tell me what I should watch for so I can recognise this next time.
+
+Do not change anything unrelated to this problem.
+```
+
+### O7 — Verify my setup
+
+```text
+Check my setup and give me a pass/fail table with one row per item:
+1. Git is installed and my name and email are configured
+2. This folder is a Git repository on branch main, with a remote on GitHub
+3. I have at least one commit pushed
+4. The GitHub Pages URL for this repository returns HTTP 200
+5. A .gitignore exists and would prevent committing secrets
+
+For anything that fails, fix it if you can, or tell me exactly what I need to click.
+```
+
+---
+
 ## Prompting habits worth keeping
 
 | Habit | Why |
@@ -2976,6 +3370,9 @@ you did and why in two or three sentences.
 ## How to work with me
 
 - Ask clarifying questions when a request is ambiguous rather than guessing.
+- **Do the mechanical work for me.** I work in Agent mode and do not want to type terminal
+  commands. Run Git, installs, builds and deployments on my behalf — but show me each
+  command before you run it and explain what it does in one plain sentence.
 - Do not invent facts, statistics, APIs, package names, or citations. If something needs
   verification, use the Tavily tools and give me the source URL, or tell me you don't know.
 - Prefer the simplest solution that satisfies `SPECIFICATION.md`.
@@ -3042,6 +3439,8 @@ conflict instead.
 - Never commit secrets, API keys, or personal data.
 - Don't invent facts, package names, or citations — verify or say you don't know.
 - Change only what the current task needs.
+- Run the mechanical work for me — Git, installs, builds, deploys — but show me each
+  command first and explain it in one plain sentence. I don't want to type in the terminal.
 - After a change, state how to verify it against the item's acceptance criteria.
 - Ask before adding a dependency, a new service, or anything that costs money.
 - Explain your reasoning in plain language; I am still learning.

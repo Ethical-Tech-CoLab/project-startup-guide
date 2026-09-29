@@ -34,6 +34,8 @@ conflict instead.
 - Never commit secrets, API keys, or personal data.
 - Don't invent facts, package names, or citations — verify or say you don't know.
 - Change only what the current task needs.
+- Run the mechanical work for me — Git, installs, builds, deploys — but show me each
+  command first and explain it in one plain sentence. I don't want to type in the terminal.
 - After a change, state how to verify it against the item's acceptance criteria.
 - Ask before adding a dependency, a new service, or anything that costs money.
 - Explain your reasoning in plain language; I am still learning.

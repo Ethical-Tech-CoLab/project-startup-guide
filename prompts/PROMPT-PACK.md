@@ -3,6 +3,12 @@
 Copy each prompt into GitHub Copilot Chat (VS Code), Claude Code, or ChatGPT/Codex.
 Run them **in order**. Do not skip the human review between stages.
 
+> **Use Agent mode.** Everything here assumes VS Code Copilot Chat set to **Agent** — it can
+> create files, run commands, use MCP servers and verify its own work. The
+> [operations prompts](#operations-prompts--the-terminal-work-you-never-have-to-type)
+> further down cover Git, commits, pull requests and deployment, so you never need to type
+> a terminal command yourself.
+
 Two habits that make these prompts work far better:
 
 1. **Attach the previous document** as context (in VS Code Chat: `#file:CONCEPT-IDEA.md`).
@@ -135,6 +141,118 @@ I just finished T-00x. Update BACKLOG.md: move it to Done with today's date and 
 number, and re-order "Now" if priorities changed. If what I actually built differs from
 SPECIFICATION.md, list the differences and propose the exact edits to the spec — do not
 edit the spec silently.
+```
+
+---
+
+## Operations prompts — the terminal work you never have to type
+
+These cover the mechanics: Git, commits, pull requests, deployment, and debugging.
+Run them in **Agent mode**. You read what happens; you don't type the commands.
+
+### O1 — Set up Git
+
+```text
+Set up Git on this machine for me. I am new to this, so narrate what you are doing.
+
+1. Check whether Git is installed. If it is not, install it using the right method for my
+   operating system, and tell me what you are installing before you do it.
+2. Configure my identity:
+   name "<Your Full Name>", email "<the email on my GitHub account>".
+3. Set the default branch name to "main".
+4. Confirm I am signed in to GitHub in VS Code so pushing will work without me pasting a
+   password. If I am not, tell me exactly which button to click.
+5. Verify everything by printing the resulting configuration, and tell me in plain language
+   what each setting means.
+
+Do not commit anything yet.
+```
+
+### O2 — Create the project and its GitHub repository
+
+```text
+Create a new project for me called "<project-name>":
+
+1. Make a folder for it and open it as my workspace.
+2. Turn it into a Git repository on a branch called main.
+3. Add a .gitignore suitable for this kind of project, so secrets and junk are never committed.
+4. Add a README.md with the project name and one sentence describing it.
+5. Create a matching repository on my GitHub account and push the first commit.
+6. Show me the repository URL when you are done.
+
+Tell me what each step did once it is finished.
+```
+
+### O3 — Publish a placeholder page
+
+```text
+Publish a placeholder page for this project on GitHub Pages.
+
+1. Create docs/index.html with the project name as a heading and one sentence saying it is
+   coming soon. Keep it valid, accessible HTML that works on a phone.
+2. Create an empty docs/.nojekyll file, and explain to me why it is needed.
+3. Commit and push everything to main.
+4. Tell me the exact Settings page I need to open and the exact options to choose to turn
+   Pages on, since you cannot click that for me.
+5. Once I confirm I have done it, wait a minute, then fetch the live URL and verify it
+   returns HTTP 200 and shows my heading. Report the URL back to me.
+```
+
+### O4 — Put a document up for review
+
+```text
+Put <DOCUMENT>.md up for review.
+
+1. Create a branch called docs/<slug>.
+2. Commit the document with a clear conventional-commit message.
+3. Push the branch and open a pull request against main.
+4. Write the PR description for me with three sections: what I want feedback on most,
+   what I am least sure about, and anything I could not verify. Base it on the document —
+   and ask me if you are unsure what belongs in each section.
+5. Give me the pull request URL, and tell me how to request <reviewer's username>
+   as a reviewer.
+```
+
+### O5 — Ship a finished backlog item
+
+```text
+Ship T-00x for me:
+
+1. Create a branch named after the task.
+2. Commit the changes with a conventional-commit message referencing T-00x.
+3. Push, and open a pull request whose description lists the acceptance criteria and how
+   each one was verified.
+4. Show me the diff summary and the PR URL.
+5. Once it is merged, confirm the deployment succeeded and the live site reflects the change.
+
+If anything fails, diagnose it, tell me what went wrong in plain language, and fix it.
+```
+
+### O6 — When something breaks
+
+```text
+<Paste the error, or describe what you saw.>
+
+Diagnose this for me:
+1. What is actually wrong, in plain language — no jargon I haven't met yet?
+2. What is the smallest safe fix?
+3. Apply it, then verify it worked and show me the evidence.
+4. Tell me what I should watch for so I can recognise this next time.
+
+Do not change anything unrelated to this problem.
+```
+
+### O7 — Verify my setup
+
+```text
+Check my setup and give me a pass/fail table with one row per item:
+1. Git is installed and my name and email are configured
+2. This folder is a Git repository on branch main, with a remote on GitHub
+3. I have at least one commit pushed
+4. The GitHub Pages URL for this repository returns HTTP 200
+5. A .gitignore exists and would prevent committing secrets
+
+For anything that fails, fix it if you can, or tell me exactly what I need to click.
 ```
 
 ---

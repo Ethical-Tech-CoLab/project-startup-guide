@@ -23,6 +23,29 @@ feels slow. It is the fastest thing you can do.
 - One person willing to read your documents and be honest about them
 - No programming experience
 
+## How you'll work: chat first
+
+You'll spend roughly 95% of your time in **VS Code Copilot Chat, in Agent mode**. Agent
+mode doesn't just answer questions — it creates files, installs software, runs terminal
+commands, commits, pushes, opens pull requests, and checks that the result actually works.
+
+So this kit leads with prompts. Where a terminal command genuinely helps, it's included
+as a collapsed fallback so you can *recognise* it, not so you have to memorise it.
+
+Only two things need your own hands: **signing in to accounts**, and **clicking buttons in
+GitHub's web settings**. An agent can't log in as you, and it shouldn't.
+
+The pattern to internalise:
+
+```text
+<describe what you want to be true when you are done>
+
+Do it for me: work out the steps, run whatever commands are needed, and show me each
+command before you run it. Explain what each one does in one plain sentence. If anything
+fails, diagnose it and try again. When you are finished, verify the result and tell me
+how you verified it.
+```
+
 ## The reading order
 
 | # | Page | Time | Why |
@@ -41,15 +64,18 @@ GitHub Pages URL) — it contains the same material as an interactive checklist.
 
 ---
 
-## Five rules worth adopting now
+## Six rules worth adopting now
 
-1. **Read everything the AI writes before you save it.** If you cannot explain a paragraph
+1. **Ask, don't type.** Work in VS Code Copilot Chat in **Agent mode**. It installs things,
+   creates files, runs commands, commits, pushes and verifies. You describe the outcome and
+   read what it does. Roughly 95% of this guide needs no terminal typing at all.
+2. **Read everything the AI writes before you save it.** If you cannot explain a paragraph
    in your own words, it is not yours yet.
-2. **Never commit a secret.** API keys, passwords, tokens. Add `.gitignore` first.
-3. **Ship something empty on day one.** A blank page at the real URL prevents a whole
+3. **Never commit a secret.** API keys, passwords, tokens. Add `.gitignore` first.
+4. **Ship something empty on day one.** A blank page at the real URL prevents a whole
    category of late-project panic.
-4. **New ideas go in `Later`.** They will still be there next week; your milestone will not.
-5. **Ask a human when you have been stuck for 20 minutes.** Model confidence is not accuracy.
+5. **New ideas go in `Later`.** They will still be there next week; your milestone will not.
+6. **Ask a human when you have been stuck for 20 minutes.** Model confidence is not accuracy.
 
 ---
 

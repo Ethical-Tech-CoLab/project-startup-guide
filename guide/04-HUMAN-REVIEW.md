@@ -90,17 +90,36 @@ Always attach a date to rework. "I'll get to it" is how projects quietly die.
 ## Using GitHub for reviews (recommended)
 
 Keeping reviews in pull requests gives you a permanent, dated record of who approved what
-— which is also exactly how professional teams work.
+— which is also exactly how professional teams work. Ask your agent to do it:
+
+```text
+Put CONCEPT-IDEA.md up for review.
+
+1. Create a branch called docs/concept-idea.
+2. Commit the document with a clear conventional-commit message.
+3. Push the branch and open a pull request against main.
+4. Write the PR description for me with three sections: what I want feedback on most,
+   what I am least sure about, and anything I could not verify. Base it on the document —
+   and ask me if you are unsure what belongs in each section.
+5. Give me the pull request URL, and tell me how to request <reviewer's username>
+   as a reviewer.
+```
+
+Repeat for each document, changing the branch and file name.
+
+<details>
+<summary>The commands behind that, if you want to see them</summary>
 
 ```bash
 git checkout -b docs/concept-idea
-# write CONCEPT-IDEA.md
 git add CONCEPT-IDEA.md
 git commit -m "docs: add concept idea for <project>"
 git push -u origin docs/concept-idea
 ```
 
 Then on GitHub: **Pull requests → New pull request → Reviewers → request your reviewer.**
+
+</details>
 
 Helpful repository settings for this workflow:
 

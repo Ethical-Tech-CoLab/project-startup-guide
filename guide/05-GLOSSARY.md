@@ -88,7 +88,10 @@ something confuses you.
 | **Blocker** | Something stopping progress that you can't fix alone |
 | **Grooming** | Tidying and re-prioritising the backlog, usually weekly |
 
-## Commands you'll be told to type
+## Commands your agent will run for you
+
+You shouldn't need to type these. They're here so that when they scroll past in the
+terminal, you know what just happened.
 
 | Command | What it does |
 | --- | --- |
@@ -99,9 +102,13 @@ something confuses you.
 | `git commit -m "message"` | Save a checkpoint |
 | `git push` | Upload commits to GitHub |
 | `git pull` | Download others' commits |
+| `git checkout -b name` | Start a new branch |
 | `npm install` | Install a project's JavaScript dependencies |
 | `npx <tool>` | Run a JavaScript tool without installing it permanently |
 | `code .` | Open the current folder in VS Code |
+
+Saw something you didn't recognise? Ask: *"You just ran `<command>`. Explain what it did,
+whether it changed anything permanently, and how I would undo it."*
 
 ---
 

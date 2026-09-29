@@ -54,14 +54,19 @@ with evidence.
 
 ## How each stage actually runs
 
+> Everything below happens in **VS Code Copilot Chat, Agent mode**. When a stage says
+> "commit it, open a pull request", that is a sentence you type into chat — see the
+> [operations prompts](../prompts/PROMPT-PACK.md#operations-prompts--the-terminal-work-you-never-have-to-type).
+
 ### Stage 1 — Concept (30–60 minutes)
 
-1. Copy [`templates/CONCEPT-IDEA.md`](../templates/CONCEPT-IDEA.md) into your repo root.
-2. Open Copilot Chat / Claude Code and run prompt #1 from the [prompt pack](../prompts/PROMPT-PACK.md).
+1. Copy [`templates/CONCEPT-IDEA.md`](../templates/CONCEPT-IDEA.md) into your repo root —
+   or ask your agent to fetch it for you.
+2. Open Copilot Chat and run prompt #1 from the [prompt pack](../prompts/PROMPT-PACK.md).
 3. **Let the AI interview you.** Answer in your own words, messily. This is the step
    people skip and it is the step that makes the project yours.
 4. Have it draft the document. Then read every line and rewrite anything that isn't true.
-5. Commit it. Open a pull request. Request a human review.
+5. Ask the agent to commit it and open a pull request (prompt O4). Request a human review.
 
 ### Stage 2 — Specification (1–2 hours)
 

@@ -2,10 +2,23 @@
 
 **Think in documents. Review with a human. Then build.**
 
+### 👉 [**Open the interactive dashboard →**](https://ethical-tech-colab.github.io/project-startup-guide/)
+
+*https://ethical-tech-colab.github.io/project-startup-guide/ — the whole guide as a clickable
+walkthrough with progress tracking, copy-ready prompts, and downloadable templates.
+Start there; this repository is the source behind it.*
+
+---
+
 A complete starter kit for students and non-engineers beginning a project with AI
 assistance: four Markdown documents to write before any code, a human review gate,
 a recommended free toolchain, MCP server setup, and an interactive dashboard you can
 deploy to GitHub Pages.
+
+> **Chat first.** This kit assumes you work in **VS Code Copilot Chat, Agent mode** —
+> roughly 95% of the work, including installing Git, committing, pushing, opening pull
+> requests and deploying, is done by asking rather than typing terminal commands.
+> Terminal equivalents are included as a fallback, not as the default path.
 
 ---
 
@@ -62,25 +75,27 @@ project-startup-guide/
 4. Copy the four templates into your own project's repository root.
 5. Run the prompts in [`prompts/PROMPT-PACK.md`](prompts/PROMPT-PACK.md), in order, one review between each.
 
-Or open the dashboard and let it walk you through it.
+Or — recommended — just open **[the dashboard](https://ethical-tech-colab.github.io/project-startup-guide/)**
+and let it walk you through it step by step.
 
 ---
 
 ## Publishing the dashboard
 
 The dashboard is a single self-contained HTML file — no build step, no dependencies.
+This repository is already published at
+**<https://ethical-tech-colab.github.io/project-startup-guide/>** via the included
+[workflow](.github/workflows/deploy-pages.yml). To publish your own fork:
 
-**Option A — deploy from a branch (simplest)**
+**Option A — GitHub Actions (what this repo uses)**
 
-1. Push this repository to GitHub.
-2. Settings → Pages → **Source: Deploy from a branch**.
-3. Branch `main`, folder `/docs`. Save.
-4. It is live at `https://<username>.github.io/<repository>/` within a minute.
+Settings → Pages → **Source: GitHub Actions**. The workflow publishes `docs/` on every
+push to `main`.
 
-**Option B — GitHub Actions**
+**Option B — deploy from a branch (simplest)**
 
-Set Settings → Pages → **Source: GitHub Actions**. The included
-[workflow](.github/workflows/deploy-pages.yml) publishes `docs/` on every push to `main`.
+Settings → Pages → **Source: Deploy from a branch**, branch `main`, folder `/docs`.
+Live within a minute at `https://<username>.github.io/<repository>/`.
 
 **Preview it locally**
 

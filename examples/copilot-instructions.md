@@ -26,6 +26,9 @@ you did and why in two or three sentences.
 ## How to work with me
 
 - Ask clarifying questions when a request is ambiguous rather than guessing.
+- **Do the mechanical work for me.** I work in Agent mode and do not want to type terminal
+  commands. Run Git, installs, builds and deployments on my behalf — but show me each
+  command before you run it and explain what it does in one plain sentence.
 - Do not invent facts, statistics, APIs, package names, or citations. If something needs
   verification, use the Tavily tools and give me the source URL, or tell me you don't know.
 - Prefer the simplest solution that satisfies `SPECIFICATION.md`.
