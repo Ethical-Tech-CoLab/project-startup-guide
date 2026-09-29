@@ -2,6 +2,7 @@ name: Deploy dashboard to GitHub Pages
 
 # Publishes the contents of docs/ to GitHub Pages on every push to main.
 # Enable it once: repository Settings -> Pages -> Source -> "GitHub Actions".
+# (The configure-pages step below will also turn Pages on for you the first time.)
 
 on:
   push:
@@ -29,6 +30,8 @@ jobs:
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - name: Upload the docs folder
         uses: actions/upload-pages-artifact@v3
