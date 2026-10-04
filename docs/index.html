@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Project Startup Guide — from idea to shipped project</title>
 <meta name="description" content="An interactive walkthrough for students: set up your tools, install MCP servers, write CONCEPT-IDEA, SPECIFICATION, PLAN and BACKLOG documents, get them reviewed by a human, and ship." />
+<link rel="icon" href="icon0.svg" sizes="any" type="image/svg+xml" />
+<link rel="icon" href="icon1.png" sizes="256x256" type="image/png" />
+<link rel="apple-touch-icon" href="icon1.png" sizes="256x256" type="image/png" />
 <script>
   (() => {
     const param = new URLSearchParams(window.location.search).get("scoutTheme");
@@ -432,6 +435,9 @@ td code { font-size: 0.82rem; background: var(--cp-surface-soft); padding: 0.05r
       </div>
     </div>
     <div class="header-tools">
+      <button class="btn btn-primary" id="glossaryQuickBtn" type="button" data-jump="glossary" aria-label="Open the glossary">
+        📖 Glossary
+      </button>
       <div class="progress-widget" role="status" aria-live="polite">
         <svg class="ring" viewBox="0 0 42 42" aria-hidden="true">
           <circle class="track" cx="21" cy="21" r="17"></circle>
@@ -460,7 +466,7 @@ td code { font-size: 0.82rem; background: var(--cp-surface-soft); padding: 0.05r
       <button class="tab" role="tab" id="tab-review" aria-controls="panel-review" aria-selected="false" data-tab="review"><span class="pip" data-pip="review">0/0</span> 4 · Human review</button>
       <button class="tab" role="tab" id="tab-build" aria-controls="panel-build" aria-selected="false" data-tab="build"><span class="pip" data-pip="build">0/0</span> 5 · Build &amp; ship</button>
       <button class="tab" role="tab" id="tab-toolkit" aria-controls="panel-toolkit" aria-selected="false" data-tab="toolkit">Templates &amp; prompts</button>
-      <button class="tab" role="tab" id="tab-glossary" aria-controls="panel-glossary" aria-selected="false" data-tab="glossary">Glossary</button>
+      <button class="tab" role="tab" id="tab-glossary" aria-controls="panel-glossary" aria-selected="false" data-tab="glossary">📖 Glossary</button>
     </div>
   </div>
 </nav>
